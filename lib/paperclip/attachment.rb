@@ -13,7 +13,8 @@ module Paperclip
         :default_style => :original,
         :validations   => [],
         :storage       => :filesystem,
-        :whiny         => Paperclip.options[:whiny] || Paperclip.options[:whiny_thumbnails]
+        :whiny         => Paperclip.options[:whiny] || Paperclip.options[:whiny_thumbnails],
+        :versioned     => false
       }
     end
 
@@ -47,6 +48,7 @@ module Paperclip
       @errors            = {}
       @validation_errors = nil
       @dirty             = false
+      @versioned         = options[:versioned]
 
       normalize_style_definition
       initialize_storage
@@ -137,7 +139,9 @@ module Paperclip
     # the instance's errors and returns false, cancelling the save.
     def save
       if valid?
-        flush_deletes
+        if !@versioned
+          flush_deletes
+        end
         flush_writes
         @dirty = false
         true
