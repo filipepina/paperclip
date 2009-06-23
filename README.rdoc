@@ -1,3 +1,15 @@
+=Changes in this Fork
+Simply added a versioned option so that if the model has versions, it wont delete older versions.
+If you use version_fu or acts_as_versioned with paperclip, just add ":versioned => true" to the options in your has_attachment_file
+
+Example:
+  class User < ActiveRecord::Base
+    has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :versioned => true
+  end
+
+
+
+
 =Paperclip
 
 Paperclip is intended as an easy file attachment library for ActiveRecord. The
